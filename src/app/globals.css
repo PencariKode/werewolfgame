@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --tw-underline-color: whitesmoke !important;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#swal2-html-container {
+  color: #e3e3e3;
+}
+
+@layer components {
+
+  .mincomp {
+    @apply min-w-full max-w-full min-h-2;
+  }
+  .flexcenter {
+    @apply flex justify-center items-center;
+  }
+
+  .navPcActive {
+    @apply bg-dark-text bg-opacity-10 [background-size:_100%_2px];
+  }
+  .navPcNonActive {
+    @apply hover:bg-dark-text hover:bg-opacity-15;
+  }
+  .navPcActive:hover {
+    @apply bg-opacity-15;
+  }
+
+  .navMobActive {
+    @apply right-0 *:right-0;
+  }
+  .navMobNonActive {
+    @apply -right-full *:-right-full;
+  }
+  .navSideActive {
+    @apply border-r-[1.7rem] border-yellow-400 scale-[1.04]  hover:border-r-[1.35rem];
+  }
+
+
+}
+
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+.link-underline {
+  border-bottom-width: 0;
+  background-image: linear-gradient(transparent, transparent), linear-gradient(#fff, #fff);
+  background-size: 0 2px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size .3s ease-in-out;
+}
+
+.link-underline-black {
+  background-image: linear-gradient(transparent, transparent), linear-gradient(var(--tw-underline-color), var(--tw-underline-color))
+}
+
+.link-underline:hover {
+  background-size: 100% 2px;
+  background-position: 0 100%
+}
