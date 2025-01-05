@@ -1,6 +1,5 @@
 import { Geist, Geist_Mono, Frijole } from "next/font/google";
 import "./globals.css";
-import "./globaltw.css"
 
 import "@fa/css/all.css"
 import "@fa/css/sharp-duotone-solid.css"
