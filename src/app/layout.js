@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Frijole } from "next/font/google";
+import { Poppins, Frijole } from "next/font/google";
 import "./globals.css";
 
 import "@fa/css/all.css"
@@ -11,14 +11,10 @@ import "@fa/css/sharp-thin.css"
 
 import Header from "@/app/Header"
 
-const geistSans = Geist({
+const poppins = Poppins({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
 });
 
 const frijole = Frijole({
@@ -40,10 +36,10 @@ export default function RootLayout({ children }) {
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${frijole.variable} !no-scrollbar antialiased bg-dark-bg text-dark-text max-w-full min-w-full min-h-screen `}
+        className={`${poppins.variable} ${frijole.variable} !no-scrollbar antialiased bg-dark-bg text-dark-text max-w-full min-w-full min-h-screen `}
       >
         <Header />
-        <main id="maintag" className="mincomp relative top-0 sm:top-[9vh] px-5 !min-h-screen !max-w-full back">
+        <main id="maintag" className="mincomp relative top-0 sm:top-[9vh] px-5 !min-h-screen !max-w-full back pb-10">
         {children}
         </main> 
 
