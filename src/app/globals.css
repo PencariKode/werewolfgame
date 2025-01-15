@@ -23,6 +23,9 @@ body {
   .mincomp {
     @apply min-w-full max-w-full min-h-2;
   }
+  .mincomp2 {
+    @apply min-w-full max-w-full;
+  }
   .flexcenter {
     @apply flex justify-center items-center;
   }
@@ -47,35 +50,8 @@ body {
     @apply border-r-[1.7rem] border-yellow-400 scale-[1.04]  hover:border-r-[1.35rem];
   }
 
-
-}
-
-@layer utilities {
-  /* Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  .slider-controler {
+    @apply absolute top-0 z-50 min-w-full max-w-full min-h-2 flex justify-evenly font-bold text-2xl sm:text-4xl;
   }
 
-  .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-}
-
-.link-underline {
-  border-bottom-width: 0;
-  background-image: linear-gradient(transparent, transparent), linear-gradient(#fff, #fff);
-  background-size: 0 2px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  transition: background-size .3s ease-in-out;
-}
-
-.link-underline-black {
-  background-image: linear-gradient(transparent, transparent), linear-gradient(var(--tw-underline-color), var(--tw-underline-color))
-}
-
-.link-underline:hover {
-  background-size: 100% 2px;
-  background-position: 0 100%
 }
