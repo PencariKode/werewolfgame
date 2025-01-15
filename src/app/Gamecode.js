@@ -28,7 +28,7 @@ export default function Gamecode() {
     }
     function handleKey(e) {
         let listKey = "0123456789abcdef".split('');
-        listKey.push(...["backspace", "enter"]);
+        listKey.push(...["backspace", "enter", 'tab']);
         if (e.key === 'Backspace' && value.length === 4) {
             e.preventDefault();
             setValue(v => v.slice(0, 3));
@@ -39,8 +39,8 @@ export default function Gamecode() {
     }
 
     return (
-        <section className="mincomp px-8 mt-10 pb-10 ">
-            <form className="mincomp" action="/join" onSubmit={validateRoom}>
+        <section className="mincomp px-8 mt-10 pb-10 xs:px-20 md:px-40 lg:px-64 xl:px-96">
+            <form tabIndex={1} className="mincomp" action="/join" onSubmit={validateRoom}>
                 <fieldset className="mincomp flex flex-col gap-2 py-3 px-5 border-solid border border-dark-text rounded-md">
                     <legend className="float-left text-2xl font-bold text-yellow-400 mincomp flexcenter">Join Room</legend>
                     <div className="mincomp flexcenter">
@@ -51,13 +51,14 @@ export default function Gamecode() {
                             className=" focus:border-slate-400 border-2 border-transparent min-w-2 w-full min-h-2 flex justify-center items-center px-3 text-center h-10 text-2xl text-dark-text bg-gray-500 placeholder:text-dark-text placeholder:text-opacity-80 placeholder:text-xl placeholder:[text-transform:capitalize;] rounded-md uppercase outline-none"
                             placeholder="Masukkan Kode..."
                             value={value}
+                            tabIndex={1}
                             onChange={handleChange}
                             onKeyDown={handleKey}
                         />
                     </div>
                     <div className="mincomp flexcenter gap-2 transition-all *:transition-all *:w-full *:h-8">
-                        <button type="submit" className="bg-teal-700 px-3 text-lg font-semibold rounded-[0.25rem] border border-transparent hover:bg-teal-500 hover:border-teal-950 hover:text-white">Masuk</button>
-                        <button type="button" onClick={() => setValue('')} className="bg-dark-accent px-3 text-lg font-semibold rounded-[0.25rem] border-2 border-transparent hover:bg-red-700 hover:border-dark-accent hover:text-white">Hapus</button>
+                        <button type="submit" tabIndex={2} className="bg-teal-700 px-3 text-lg font-semibold rounded-[0.25rem] border border-transparent hover:bg-teal-500 hover:border-teal-950 hover:text-white">Masuk</button>
+                        <button type="button" tabIndex={3} onClick={() => setValue('')} className="bg-dark-accent px-3 text-lg font-semibold rounded-[0.25rem] border-2 border-transparent hover:bg-red-700 hover:border-dark-accent hover:text-white">Hapus</button>
                     </div>
                 </fieldset>
             </form>

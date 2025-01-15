@@ -94,25 +94,29 @@ export default function Home() {
 
 import { frijole } from "./ui/fonts";
 import Gamecode from "./Gamecode";
+import InfiniteCarousel from "./InfiniteCarousel";
 
 export default function Page() {
   return (
     <>
-      <div className="mincomp flexcenter h-[70vh] flex-col pt-14 mb-20">
+      <div className="mincomp flexcenter h-[75vh] flex-col pt-14 mb-20">
         <h1 className={`${frijole.className} text-3xl text-rose-700`}>W<b className="font-normal text-red-600">O</b>LFMAN</h1>
         <Gamecode />
       </div>
       <div className="mincomp bst py-8 ">
-        <article className="mincomp flex flex-col gap-3">
+        <article className="mincomp flex flex-col gap-3 xs:px-6 sm:px-10 md:px-16 lg:px-32 xl:px-52 2xl:px-64">
           <h1 className="text-2xl "><b className={`font-normal ${frijole.className} text-rose-800`}>WOLFMAN</b>: mainkan bersama teman secara langsung!</h1>
-          <p className="text-base text-justify first-letter:ml-4">
-            Website ini membantu kamu bermain game <i>Werewolf</i> secara luring bersama teman-temanmu, namun tanpa merugikan <i>role-role tertentu</i>.
+          <p className="text-base lg:text-lg text-justify first-letter:ml-4 xm">
+          <b>WOLFMAN</b> adalah permainan Werewolf klasik di mana para warga bekerja sama untuk menebak dan menyingkirkan semua Werewolf yang bersembunyi di antara mereka. Tantangannya adalah para warga tidak dapat mengetahui siapa di antara mereka yang sebenarnya adalah Werewolf. Oleh karena itu, warga harus menyusun strategi untuk mengungkap identitas para Werewolf, sementara Werewolf juga harus merancang taktik agar tidak ketahuan.
           </p>
-          <p className="text-base text-justify first-letter:ml-4">
-            Dengan menggunakan website ini, <i>role-role</i> yang membutuhkan kerahasiaan dapat menjadi sedikit lebih bebas untuk berkomunikasi satu sama lain tanpa takut ketahuan oleh pemain lainnya dengan fitur chat bawaan website ini.
+          <p className="text-base lg:text-lg text-justify first-letter:ml-4 xm">
+          Permainan berlangsung dalam dua fase: siang dan malam. Pada siang hari, warga melakukan diskusi dan voting untuk menentukan siapa yang akan dibunuh, dengan harapan bahwa yang terpilih adalah Werewolf. Sebaliknya, pada malam hari, warga harus <i>"tertidur"</i>, memberikan kesempatan bagi Werewolf untuk diam-diam memilih dan membunuh salah satu warga.
           </p>
         </article>
 
+      </div>
+      <div className="mincomp pt-10">
+        <InfiniteCarousel />
       </div>
     </>
   );
