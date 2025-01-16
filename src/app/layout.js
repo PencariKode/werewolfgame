@@ -10,6 +10,7 @@ import "@fa/css/sharp-thin.css"
 // import "@fa/css/.css"
 
 import Header from "@/app/Header"
+import Footer from "./Footer";
 
 const poppins = Poppins({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({ children }) {
         {children}
         </main> 
 
+        <Footer />
       </body>
     </html>
   );

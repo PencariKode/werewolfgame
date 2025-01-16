@@ -53,7 +53,7 @@ export default function Header() {
                 <button onClick={toggleFixed} className="  absolute right-5 top-0 flex items-center justify-center min-h-full max-w-full font-bold text-3xl"><i className="fa-solid fa-bars"></i></button>
             </section>
 
-            <aside id='navbarmobile' className={`mincomp overflow-x-hidden overflow-y-auto min-h-screen h-screen fixed top-[9vh] z-[99] duration-300 *:duration-300 ${isFixed && isMobile ? 'navMobActive' : 'navMobNonActive'}`}>
+            <aside id='navbarmobile' className={`mincomp overflow-x-hidden sm:invisible overflow-y-auto min-h-screen h-screen fixed top-[9vh] z-[99] duration-300 *:duration-300 ${isFixed && isMobile ? 'navMobActive' : 'navMobNonActive'}`}>
                 <div onClick={toggleFixed} className='fixed top-[9vh mincomp min-h-full h-full max-h-full overflow-hidden z-[90]'></div>
                 <section className='min-h-full h-full w-[65%] xs:w-[50%] max-w-[65%] bg-dark-primary absolute right-0 top-0 z-[93]'>
                     <nav className='flex flex-col gap-2 pt-5 min-h-full h-full min-w-full max-w-full w-full bg-white bg-opacity-5 items-start relative'>
