@@ -1,7 +1,7 @@
 'use client';
 
 import Image from "next/image";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { EffectCoverflow, Navigation } from 'swiper/modules';
@@ -18,13 +18,12 @@ const configRoleColor = {
 }
 
 const InfiniteCarousel = () => {
-
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobileRef = useRef(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 640);
+      isMobileRef.current = window.innerWidth <= 640;
     };
 
     handleResize(); // Check on initial render
@@ -38,10 +37,10 @@ const InfiniteCarousel = () => {
   useEffect(() => {
     const swiperInstance = document.querySelector('.swiper').swiper;
     if (swiperInstance) {
-      swiperInstance.params.coverflowEffect.modifier = isMobile ? 1.5 : 3.5;
+      swiperInstance.params.coverflowEffect.modifier = isMobileRef.current ? 1.5 : 3.5;
       swiperInstance.update();
     }
-  }, [isMobile]);
+  }, []);
 
   function handleSwiper(swiper) {
     swiper.on('slideChange', () => {
@@ -90,7 +89,7 @@ const InfiniteCarousel = () => {
           rotate: 0,
           stretch: -50,
           depth: 125,
-          modifier: isMobile ? 1.5 : 3.5,
+          modifier: isMobileRef.current ? 1.5 : 3.5,
           slideShadows: false
         }}
         navigation={{
@@ -99,7 +98,6 @@ const InfiniteCarousel = () => {
           clickable: true,
         }}
         modules={[EffectCoverflow, Navigation]}
-        // onSlideChange={(e) => console.log('slide change', e)}
         onSwiper={handleSwiper}
         id="slider"
         className="!relative mb-0"
@@ -115,12 +113,11 @@ const InfiniteCarousel = () => {
           return (
             <SwiperSlide key={index} className={`max-w-32 sm:max-w-64 min-w-fit min-h-4 pb-10 mt-5 ${index === activeIndex ? '' : 'opacity-40'}`}>
               <div className={`min-w-32 max-w-full min-h-2 flex flex-col items-center justify-center after:${configRoleColor[role.side]} ${index === activeIndex ? 'after:rounded-full' : 'after:rounded-[3rem] sm:after:rounded-[4.5rem]'} after:[content:''] after:min-w-32 after:max-w-32 after:min-h-32 after:max-h-32 sm:after:min-w-56 sm:after:max-w-56 sm:after:min-h-56 sm:after:max-h-56 after:absolute after:-z-10 after:top-2 sm:after:top-12 `}>
-                <Image src={role.image} priority={false} alt={role.name} width={isMobile ? 128 : 400} height={isMobile ? 128 : 400} className={` max-w-32 sm:max-w-64 min-w-fit max-h-32 min-h-fit !aspect-square ${index === activeIndex ? 'w-32 h-32 sm:w-64' : ' '}`} />
+                <Image src={role.image} priority={false} alt={role.name} width={isMobileRef.current ? 128 : 400} height={isMobileRef.current ? 128 : 400} className={` max-w-32 sm:max-w-64 min-w-fit max-h-32 min-h-fit !aspect-square ${index === activeIndex ? 'w-32 h-32 sm:w-64' : ' '}`} />
               </div>
             </SwiperSlide>
           );
         })}
-
 
       </Swiper>
       <div className="mincomp -mt-10 flex flex-col justify-center items-center gap-4 ">

@@ -93,8 +93,8 @@ export default function Home() {
 
 
 import { frijole } from "./ui/fonts";
-import Gamecode from "./Gamecode";
-import InfiniteCarousel from "./InfiniteCarousel";
+import Gamecode from "@/app/component/Gamecode";
+import InfiniteCarousel from "./component/InfiniteCarousel";
 
 export default function Page() {
   return (

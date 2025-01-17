@@ -1,5 +1,12 @@
 'use client';
 
+import {
+    SignInButton,
+    SignedIn,
+    SignedOut,
+    UserButton
+} from '@clerk/nextjs'
+
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -9,12 +16,13 @@ const listLink = {
     Beranda: "/",
     Buat: "/create",
     Tentang: "/tentang",
-    Akun: "/register",
+    // Akun: ["/akun/signin", "/akun/signup"],
 }
 
 export default function Header() {
     const thisUrl = usePathname();
     const [isFixed, setIsFixed] = useState(false);
+    // const [isActive, setIsActive] = useState(false);
 
     const toggleFixed = () => {
         setIsFixed(!isFixed);
@@ -29,7 +37,7 @@ export default function Header() {
             document.body.style.paddingTop = '0';
         }
     }, [isFixed]);
-    
+
 
     const [isMobile, setIsMobile] = useState(false); // Initialize with false
 
@@ -40,8 +48,19 @@ export default function Header() {
         };
 
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize) ;
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    function linkHandler(key) {
+        if (key === 'Akun') {
+            return thisUrl.includes('/akun');
+        }
+        if (Array.isArray(listLink[key])) {
+            return listLink[key].includes(thisUrl);
+        } else {
+            return listLink[key] === thisUrl;
+        }
+    }
 
     return (
         /*
@@ -56,9 +75,14 @@ export default function Header() {
             <aside id='navbarmobile' className={`mincomp overflow-x-hidden sm:invisible overflow-y-auto min-h-screen h-screen fixed top-[9vh] z-[99] duration-300 *:duration-300 ${isFixed && isMobile ? 'navMobActive' : 'navMobNonActive'}`}>
                 <div onClick={toggleFixed} className='fixed top-[9vh mincomp min-h-full h-full max-h-full overflow-hidden z-[90]'></div>
                 <section className='min-h-full h-full w-[65%] xs:w-[50%] max-w-[65%] bg-dark-primary absolute right-0 top-0 z-[93]'>
-                    <nav className='flex flex-col gap-2 pt-5 min-h-full h-full min-w-full max-w-full w-full bg-white bg-opacity-5 items-start relative'>
+                    <nav className='flex flex-col gap-2 pt-5 min-h-full h-full min-w-full max-w-full w-full bg-white bg-opacity-5 items-start relative *:!text-dark-text'>
+                        <SignedOut>
+                            <SignInButton>
+                                <Link href="/akun/signin" className={` bg-dark-bg bg-opacity-70 h-11 font-bold min-w-full flex items-center link-underline link-underline-black py-1 px-3 relative left-5 rounded-l-md hover:scale-[.98] hover:!font-semibold ${linkHandler('Akun') ? 'navSideActive' : ''}`}>Masuk</Link>
+                            </SignInButton>
+                        </SignedOut>
                         {Object.keys(listLink).map((key) => (
-                            <Link key={key} href={listLink[key]} onClick={toggleFixed} className={` bg-dark-bg bg-opacity-70 h-11 font-bold min-w-full flex items-center link-underline link-underline-black py-1 px-3 relative left-5 rounded-l-md hover:scale-[.98] hover:!font-semibold ${thisUrl === listLink[key] ? 'navSideActive' : ''}`}><span className='link-underline link-undeline-black'>{key}</span></Link>
+                            <Link key={key} href={Array.isArray(listLink[key]) ? listLink[key][0] : listLink[key]} onClick={toggleFixed} className={` bg-dark-bg bg-opacity-70 h-11 font-bold min-w-full flex items-center link-underline link-underline-black py-1 px-3 relative left-5 rounded-l-md hover:scale-[.98] hover:!font-semibold ${linkHandler(key) ? 'navSideActive' : ''}`}><span className='link-underline link-undeline-black'>{key}</span></Link>
                         ))}
                     </nav>
                 </section>
@@ -68,8 +92,20 @@ export default function Header() {
                 <Link href="/" className={` ${frijole.className} flex justify-center items-center uppercase font-extrabold text-[1.7rem] xl:text-3xl hover:[text-shadow:0_0_10px_red;]`}>W<i className="fa-brands fa-wolf-pack-battalion"></i>LFMAN</Link>
                 <nav className="flex gap-4 min-w-10 max-w-[70%] min-h-4 max-h-full text-lg xl:text-lg font-semibold">
                     {Object.keys(listLink).map((key) => (
-                        <Link key={key} href={listLink[key]} className={`flex link-underline link-underline-black justify-center items-center min-w-2 min-h-5 py-1 max-h-fu</section>ll rounded-md px-3 ${thisUrl === listLink[key] ? 'navPcActive' : 'navPcNonActive'}`}><span>{key}</span></Link>
+                        <Link key={key} href={Array.isArray(listLink[key]) ? listLink[key][0] : listLink[key]} className={`flex link-underline link-underline-black justify-center items-center min-w-2 min-h-5 py-1 max-h-full rounded-md px-3 ${linkHandler(key) ? 'navPcActive' : 'navPcNonActive'}`}><span>{key}</span></Link>
                     ))}
+                    <SignedOut>
+                        <SignInButton>
+                            <Link href="/akun/signin" className={`flex link-underline link-underline-black justify-center items-center min-w-2 min-h-5 py-1 max-h-full text-lg rounded-md px-3 ${linkHandler('Akun') ? 'navPcActive' : 'navPcNonActive'}`}>Masuk</Link>
+                        </SignInButton>
+                    </SignedOut>
+                    <SignedIn>
+                        <UserButton appearance={{
+                            elements: {
+                                avatarBox: "w-10 h-10"
+                            }
+                        }} />
+                    </SignedIn>
                 </nav>
             </section>
         </header>

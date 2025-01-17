@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { frijole } from "./ui/fonts";
+import { frijole } from "@/app/ui/fonts";
 import { useState } from "react";
 
 

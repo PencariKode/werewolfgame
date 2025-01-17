@@ -6,7 +6,7 @@ const listLink = [
     [
         [
             { nama: "Tentang", link: "/tentang" },
-            { nama: "Akun", link: "/register" },
+            { nama: "Akun", link: "/akun/signup" },
             { nama: "Kontak", link: "/kontak" },
             { nama: "FAQ", link: "/faq" },
         ], [
