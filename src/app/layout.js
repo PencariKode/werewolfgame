@@ -5,6 +5,7 @@ import {
   SignedOut,
   UserButton
 } from '@clerk/nextjs'
+import { dark, neobrutalism } from '@clerk/themes'
 
 import { Poppins, Frijole } from "next/font/google";
 import "./globals.css";
@@ -61,7 +62,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: [dark, neobrutalism]
+      }}
+    >
     <html lang="id">
       <head>
         <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet" />
@@ -71,7 +76,7 @@ export default function RootLayout({ children }) {
         className={`${poppins.variable} ${frijole.variable} !no-scrollbar antialiased bg-dark-bg text-dark-text max-w-full min-w-full min-h-screen `}
       >
         <Header />
-        <main id="maintag" className="mincomp relative top-0 sm:top-[9vh] px-5 !min-h-screen !max-w-full back pb-10">
+        <main id="maintag" className="mincomp relative top-0 sm:top-[10vh] px-5 !min-h-screen !max-w-full back pb-10">
         
         {children}
         </main> 
