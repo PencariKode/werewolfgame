@@ -14,7 +14,7 @@ import { frijole } from '@/app/ui/fonts';
 
 const listLink = {
     Beranda: "/",
-    Buat: "/create",
+    Buat: "/buat",
     Tentang: "/tentang",
     // Akun: ["/akun/signin", "/akun/signup"],
 }
@@ -78,9 +78,12 @@ export default function Header() {
                     <nav className='flex flex-col gap-2 pt-5 min-h-full h-full min-w-full max-w-full w-full bg-white bg-opacity-5 items-start relative *:!text-dark-text'>
                         <SignedOut>
                             <SignInButton>
-                                <Link href="/akun/signin" className={` bg-dark-bg bg-opacity-70 h-11 font-bold min-w-full flex items-center link-underline link-underline-black py-1 px-3 relative left-5 rounded-l-md hover:scale-[.98] hover:!font-semibold ${linkHandler('Akun') ? 'navSideActive' : ''}`}>Masuk</Link>
+                                <Link href="/akun/signin" className={` bg-dark-bg bg-opacity-70 h-11 font-bold min-w-full flex items-center link-underline link-underline-black py-1 px-3 relative left-5 rounded-l-md hover:scale-[.98] hover:!font-semibold ${linkHandler('Akun') ? 'navSideActive' : ''}`}><span className='link-underline link-undeline-black'>Masuk</span></Link>
                             </SignInButton>
                         </SignedOut>
+                        <SignedIn>
+                        <Link href="/akun" className={` bg-dark-bg bg-opacity-70 h-11 font-bold min-w-full flex items-center link-underline link-underline-black py-1 px-3 relative left-5 rounded-l-md hover:scale-[.98] hover:!font-semibold ${linkHandler('Akun') ? 'navSideActive' : ''}`}><span className='link-underline link-undeline-black'>Akun</span></Link>
+                        </SignedIn>
                         {Object.keys(listLink).map((key) => (
                             <Link key={key} href={Array.isArray(listLink[key]) ? listLink[key][0] : listLink[key]} onClick={toggleFixed} className={` bg-dark-bg bg-opacity-70 h-11 font-bold min-w-full flex items-center link-underline link-underline-black py-1 px-3 relative left-5 rounded-l-md hover:scale-[.98] hover:!font-semibold ${linkHandler(key) ? 'navSideActive' : ''}`}><span className='link-underline link-undeline-black'>{key}</span></Link>
                         ))}
