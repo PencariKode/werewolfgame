@@ -18,6 +18,16 @@ body {
   color: #e3e3e3;
 }
 
+.cl-socialButtonsBlockButtonText {
+  color: #f3f3f3f1 !important;
+}
+
+.cl-userButtonOuterIdentifier {
+  font-size: 1rem !important;
+  text-transform: capitalize !important;
+  margin-left: -.6rem !important;
+}
+
 @layer components {
 
   .mincomp {
@@ -53,5 +63,6 @@ body {
   .slider-controler {
     @apply absolute top-0 z-50 min-w-full max-w-full min-h-2 flex justify-evenly font-bold text-2xl sm:text-4xl;
   }
+
 
 }
