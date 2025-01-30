@@ -1,9 +1,10 @@
 "use client";
 
+import { useRef } from "react";
 import { UserProfile } from "@clerk/nextjs";
 
-import SNK from "@/app/akun/component/snk";
-import { SnkIcon } from "@/app/akun/component/snk";
+import SNK from "@/app/(primary)/akun/component/snk";
+import { SnkIcon } from "@/app/(primary)/akun/component/snk";
 
 const DotIcon = () => {
   return (
@@ -17,6 +18,8 @@ const DotIcon = () => {
   );
 };
 
+const SignOutIcon = () => (<i className="fa-sharp fa-solid fa-arrow-left-from-bracket"></i>)
+
 const UserProfilePage = () => (
   <div className="min-w-full max-w-full min-h-fit h-screen sm:h-[120vh] flex justify-center pt-16">
     <UserProfile path="/akun" routing="path">
@@ -28,6 +31,7 @@ const UserProfilePage = () => (
       >
         <SNK />
       </UserProfile.Page>
+      <UserProfile.Link label="Log Out" labelIcon={<SignOutIcon />} url="/akun/signout"></UserProfile.Link>
     </UserProfile>
   </div>
 );
