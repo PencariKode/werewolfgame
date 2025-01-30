@@ -3,8 +3,8 @@
 import { useRef } from "react";
 import { UserProfile } from "@clerk/nextjs";
 
-import SNK from "@/app/(primary)/akun/component/snk";
-import { SnkIcon } from "@/app/(primary)/akun/component/snk";
+import SNK from "@/app/component/snk";
+import { SnkIcon } from "@/app/component/snk";
 
 const DotIcon = () => {
   return (
