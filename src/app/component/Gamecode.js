@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { frijole } from "@/app/ui/fonts";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 export default function Gamecode() {
@@ -18,13 +18,16 @@ export default function Gamecode() {
 
     function handleChange(e) {
         let newValue = e.target.value.toUpperCase();
+        if (newValue.length === 6 && !newValue.includes('-')) {
+            newValue = newValue.slice(0, 3) + '-' + newValue.slice(3);
+        }
         if (newValue.length > 7) {
             newValue = newValue.slice(0, 7);
         }
         if (newValue.length === 3 && !newValue.includes('-')) {
             newValue += '-';
         }
-        setValue(newValue);
+        setValue(() =>newValue);
     }
     function handleKey(e) {
         let listKey = "0123456789abcdef".split('');
@@ -64,7 +67,7 @@ export default function Gamecode() {
             </form>
             <div className="mincomp flexcenter flex-col gap-2 mt-2 px-6">
                 <span className="mincomp text-lg font-bold text-center text-dark-text">Atau</span>
-                <Link href="/create" className=" bg-yellow-400 text-dark-primary flexcenter text-xl !font-bold rounded-md h-10 w-full min-w-full max-w-full min-h-2 hover:font-semibold hover:bg-opacity-90">Buat Room</Link>
+                <Link href="/buat" className=" bg-yellow-400 text-dark-primary flexcenter text-xl !font-bold rounded-md h-10 w-full min-w-full max-w-full min-h-2 hover:font-semibold hover:bg-opacity-90">Buat Room</Link>
             </div>
         </section>
     );
