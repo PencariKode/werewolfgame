@@ -157,11 +157,41 @@ export default function Page() {
                 <section className="mincomp flex flex-col mt-10 px-8 justify-center items-center">
                     {room?.owner?.clerkId === user?.id ? (
                         <button onClick={() => {
-                            startTransition(() => delRoom(code.toLowerCase()));
+                            Swal.fire({
+                                title: 'Hapus Room?',
+                                text: 'Apakah anda yakin ingin menghapus room ini?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                confirmButtonText: 'Ya, Hapus',
+                                cancelButtonText: 'Batal',
+                                confirmButtonColor: '#8c0e03',
+                                cancelButtonColor: '#1e3a8a',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    startTransition(() => delRoom(code.toLowerCase()));
+                                }
+                            });
                         }} type="button" disabled={isDelPending} className="!min-w-40 !max-w-40 h-8 rounded-md text-base font-bold bg-red-800 border-2 border-transparent hover:border-yellow-800 active:border-yellow-700 active:scale-[1] hover:scale-[1.02] disabled:opacity-60 disabled:cursor-progress">Hapus Room</button>
                     ) : (
                         <button onClick={() => {
-                            startTransition(() => leaveRoom({roomCode: code.toLowerCase(), user: user?.id}));
+                            Swal.fire({
+                                title: 'Keluar dari Room?',
+                                text: 'Apakah anda yakin ingin keluar dari room ini?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                confirmButtonText: 'Ya, Keluar',
+                                cancelButtonText: 'Batal',
+                                confirmButtonColor: '#8c0e03',
+                                cancelButtonColor: '#1e3a8a',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    startTransition(() => leaveRoom({roomCode: code.toLowerCase(), user: user?.id}));
+                                }
+                            });
                         }} type="button" disabled={isLeavePending} className="!min-w-40 !max-w-40 h-8 rounded-md text-base font-bold bg-red-800 border-2 border-transparent hover:border-yellow-800 active:border-yellow-700 active:scale-[1] hover:scale-[1.02]">Keluar dari Room</button>
                     )}
                 </section>
