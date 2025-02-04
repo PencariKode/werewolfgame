@@ -110,7 +110,7 @@ export default function Page() {
     return (
         <>
             {room !== null ? (
-            <div className="mincomp mt-10">
+            <div className="mincomp mt-10 xs:px-10 sm:px-20 md:px-40 lg:px-72 xl:px-96 2xl:px-[30rem]">
                 <section className="flex flex-col mincomp justify-center items-center">
                     <h1 className="text-4xl font-[800] uppercase tracking-wide bg-dark-primary text-dark-secondary px-8 pt-4 pb-3 rounded-xl">Lobby</h1>
                     <p className="mincomp mt-1 px-10 text-center">Harap menunggu sampai permainan dimulai oleh pemilik permainan: </p>
