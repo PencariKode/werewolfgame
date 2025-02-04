@@ -75,6 +75,8 @@ export const useCheckRoom = create(persist(
         setIsJoined: (isJoined) => set({ isJoined }),
         roomCode: "",
         setRoomCode: (roomCode) => set({ roomCode }),
+        newJoin: false,
+        setNewJoin: (newJoin) => set({ newJoin }),
         reset: () => set({
             isJoined: false,
             roomCode: "",

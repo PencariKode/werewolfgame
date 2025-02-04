@@ -19,15 +19,22 @@ export default function CheckRoom() {
         }
     })
 
-    const { isJoined, setIsJoined, roomCode, setRoomCode, reset } = useCheckRoom();
+    const { isJoined, setIsJoined, roomCode, setRoomCode, newJoin, setNewJoin, reset } = useCheckRoom();
     const router = useRouter();
     
     useEffect(() => {
         // console.log('USE AUTH', userId)
         // Only redirect if user is signed in
         if (userId && isJoined && (roomCode !== "")) {
+            console.log("NEWWW JOIN", newJoin);
             if (isAllowed) return;
-            Swal.fire(`Gagal`, `Anda sudah bergabung di room ${roomCode}`, 'info');
+            if (newJoin) {
+                Swal.fire(`Berhasil`, `Anda berhasil bergabung di room ${roomCode.toUpperCase()}`, 'success')
+                .then(() => setNewJoin(false));
+                router.push(`/lobby/${roomCode}`);
+                return;
+            }
+            Swal.fire(`Gagal`, `Anda sudah bergabung di room ${roomCode.toUpperCase()}`, 'info');
             router.push(`/lobby/${roomCode}`);
         }
     });

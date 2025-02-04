@@ -2,12 +2,13 @@
 
 import { useEffect, useTransition, useState, useRef, useActionState, startTransition } from "react"; 
 import { useRouter, usePathname } from "next/navigation";
-import { getRoom, deleteRoom } from "./actions";
+import { getRoom, deleteRoom, leaveRoom as lvRoom } from "./actions";
 import { useCheckRoom } from "@/app/utils";
 
 export default function Page() {
     const apikey = process.env.NEXT_PUBLIC_WEB_APIKEY;
     const [stateDel, delRoom, isDelPending] = useActionState(deleteRoom);
+    const [stateLeave, leaveRoom, isLeavePending] = useActionState(lvRoom)
 
     const router = useRouter();
     const path = usePathname();
@@ -35,6 +36,17 @@ export default function Page() {
             Swal.fire('Gagal', 'Room gagal dihapus', 'error');
         }
     }, [stateDel]);
+    useEffect(() => {
+        console.log('LEAVE', stateLeave);
+        if (!stateLeave) return;
+        if (stateLeave.success) {
+            cekRoom.reset()
+            Swal.fire('Berhasil', 'Anda berhasil keluar dari room', 'success')
+            .then(() => router.replace('/'));
+        } else {
+            Swal.fire('Gagal', 'Anda gagal keluar dari room', 'error');
+        }
+    }, [stateLeave]);
 
     useEffect(() => {
         urlRef.current = window.location.href
@@ -148,7 +160,9 @@ export default function Page() {
                             startTransition(() => delRoom(code.toLowerCase()));
                         }} type="button" disabled={isDelPending} className="!min-w-40 !max-w-40 h-8 rounded-md text-base font-bold bg-red-800 border-2 border-transparent hover:border-yellow-800 active:border-yellow-700 active:scale-[1] hover:scale-[1.02] disabled:opacity-60 disabled:cursor-progress">Hapus Room</button>
                     ) : (
-                        <button type="button" className="!min-w-40 !max-w-40 h-8 rounded-md text-base font-bold bg-red-800 border-2 border-transparent hover:border-yellow-800 active:border-yellow-700 active:scale-[1] hover:scale-[1.02]">Keluar dari Room</button>
+                        <button onClick={() => {
+                            startTransition(() => leaveRoom({roomCode: code.toLowerCase(), user: user?.id}));
+                        }} type="button" disabled={isLeavePending} className="!min-w-40 !max-w-40 h-8 rounded-md text-base font-bold bg-red-800 border-2 border-transparent hover:border-yellow-800 active:border-yellow-700 active:scale-[1] hover:scale-[1.02]">Keluar dari Room</button>
                     )}
                 </section>
             </div>

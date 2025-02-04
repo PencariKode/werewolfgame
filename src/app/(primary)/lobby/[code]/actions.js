@@ -64,3 +64,44 @@ export async function deleteRoom(_, code) {
         }
     }
 }
+
+export async function leaveRoom(_, {roomCode, user}) {
+    try {
+        await dbConnect();
+
+        const room = await Room.findOne({ roomCode });
+        if (!room) {
+            return {
+                success: false,
+                error: 'Room not found'
+            }
+        }
+
+        const userExist = room.lobbyJoined.find(lobby => lobby === user);
+        if (!userExist) {
+            return {
+                success: false,
+                error: 'User not joined'
+            }
+        }
+
+        room.lobbyJoined = room.lobbyJoined.filter(item => item !== undefined && item !== null && item !== user);
+
+        await room.save();
+
+        return {
+            success: true,
+            error: ''
+        }
+
+
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            error: error.message
+        }
+    }
+
+    
+}
