@@ -5,12 +5,14 @@ import { frijole } from "@/app/ui/fonts";
 import { useState, useEffect, useActionState, startTransition, useTransition } from "react";
 import { joinRoom } from "./joinActions";
 import { useCheckRoom } from "@/app/utils";
-
+import { useRouter } from "next/navigation";
 
 export default function Gamecode() {
     const apikey = process.env.NEXT_PUBLIC_WEB_APIKEY;
     const [value, setValue] = useState('');
     const [isBtnDisabled, setBtnDisabled] = useState(true);
+
+    const router = useRouter();
 
     const cekRoom = useCheckRoom();
 
@@ -23,8 +25,8 @@ export default function Gamecode() {
             const response = await fetch(`/api/acc/clerk?apikey=${apikey}`);
             if (response.status === 401 || response.statusText === 'Unauthorized') {
                 setUser(null)
-                Swal.fire('Gagal', 'Silahkan login terlebih dahulu', 'error')
-                .then(() => router.replace('/akun/signin'));
+                // Swal.fire('Gagal', 'Silahkan login terlebih dahulu', 'error')
+                // .then(() => router.replace('/akun/signin'));
                 return;
             }
             if (!response.ok) throw new Error('Network response was not ok');
@@ -42,8 +44,8 @@ export default function Gamecode() {
 
     useEffect(() => {
         if (user === null) {
-            Swal.fire('Gagal', 'Silahkan login terlebih dahulu', 'error')
-            .then(() => router.replace('/akun/signin'));
+            // Swal.fire('Gagal', 'Silahkan login terlebih dahulu', 'error')
+            // .then(() => router.replace('/akun/signin'));
         }
     }, [user]);
 
@@ -63,21 +65,48 @@ export default function Gamecode() {
 
 
     function validateRoom(e) {
+        if (value.length === 0) {
+            Swal.fire("Really bro?", 'Isi dulu lah!!', 'error');
+            e.preventDefault()
+            return
+        }
+
+        if (value.length !== 7) {
+            Swal.fire("Format Salah!", 'contoh: (A1B-CD3)', 'error');
+            e.preventDefault()
+            return
+        }
+
         const regex = /^[0-9a-f]{3}-[0-9a-f]{3}$/i;
         if (!regex.test(value) || !value.includes('-')) {
             Swal.fire("Format Salah!", 'contoh: (A1B-CD3)', 'error');
             e.preventDefault()
+            return
+        }
+
+        if (user === null) {
+            e.preventDefault();
+            Swal.fire('Gagal', 'Silahkan login terlebih dahulu', 'error')
+            .then(() => router.push('/akun/signin'));
+            return;
+        }
+        if (user === undefined) {
+            e.preventDefault();
+            Swal.fire('Gagal', 'Mohon reload halaman ini!', 'error');
+            return;
         }
         
         if (isBtnDisabled) {
             e.preventDefault();
+            return
         }
 
         startTransition(() => {
             e.preventDefault();
-            console.log("USERNYAAAAA", user.id, user);
+            // console.log("USERNYAAAAA", user.id, user);
             joinAction({roomCode: value, user: user.id});
         });
+        e.preventDefault();
     }
 
     function handleChange(e) {
@@ -141,7 +170,7 @@ export default function Gamecode() {
                         />
                     </div>
                     <div className="mincomp flexcenter gap-2 transition-all *:transition-all *:w-full *:h-8">
-                        <button type="submit" disabled={isBtnDisabled} tabIndex={2} autoComplete="nope" className={`bg-teal-700 disabled:!opacity-80 disabled:!cursor-not-allowed ${(value.length !== 7) ? 'cursor-progress' : 'cursor-pointer'} px-3 text-lg font-semibold rounded-[0.25rem] border border-transparent hover:bg-teal-500 hover:border-teal-950 hover:text-white`}>Masuk</button>
+                        <button type="submit"  title={isBtnDisabled ? "Silahkan Sign-In terlebih dahulu!" : ''} tabIndex={2} autoComplete="nope" className={`bg-teal-700 disabled:!opacity-80 disabled:!cursor-not-allowed ${(value.length !== 7) ? 'cursor-progress' : 'cursor-pointer'} px-3 text-lg font-semibold rounded-[0.25rem] border border-transparent hover:bg-teal-500 hover:border-teal-950 hover:text-white`}>Masuk</button>
                         <button type="button" tabIndex={3} onClick={() => setValue('')} className="bg-dark-accent px-3 text-lg font-semibold rounded-[0.25rem] border-2 border-transparent hover:bg-red-700 hover:border-dark-accent hover:text-white">Hapus</button>
                     </div>
                 </fieldset>
