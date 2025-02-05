@@ -137,6 +137,12 @@ export default function Gamecode() {
     useEffect(() => {
         if (stateJoin === null) return;
         if (!stateJoin.success) {
+            if (stateJoin.error === 'User already joined') {
+                cekRoom.setIsJoined(true);
+                cekRoom.setRoomCode(value.replace('-', '').toLowerCase());  
+                // router.replace(`/lobby/${value.replace('-', '').toLowerCase()}`);
+                return;
+            }
             Swal.fire('Gagal', stateJoin.error, 'error');
             return;
         }
