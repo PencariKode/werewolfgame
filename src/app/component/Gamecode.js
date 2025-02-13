@@ -104,7 +104,7 @@ export default function Gamecode() {
         startTransition(() => {
             e.preventDefault();
             // console.log("USERNYAAAAA", user.id, user);
-            joinAction({roomCode: value, user: user.id});
+            joinAction({roomCode: value, user: user.id, fullname: (user.fullname || (user.firstName + " " + user.lastName))});
         });
         e.preventDefault();
     }
@@ -156,6 +156,23 @@ export default function Gamecode() {
         // .then(() => router.replace(`/lobby/${value.replace('-', '').toLowerCase()}`));
 
     }, [stateJoin]);
+
+    useEffect(() => {
+        if (isJoinPending) {
+            Swal.fire({
+                title: 'Memasuki room...',
+                text: 'harap menunggu',
+                icon: 'info',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            })
+        }
+    }, [isJoinPending]);
 
     return (
         <section className="mincomp px-8 mt-10 pb-10 xs:px-20 md:px-40 lg:px-64 xl:px-96">

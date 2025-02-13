@@ -1,7 +1,9 @@
 'use server';
 
+import { publishMessage } from "@/app/api/sse/lobby/route";
 import dbConnect from "@l/mgdb";
 import Room from "@l/models/Room";
+import { kv } from "@vercel/kv";
 
 
 export async function getRoom(code) {
@@ -51,6 +53,10 @@ export async function deleteRoom(_, code) {
 
         const room = await Room.findOneAndDelete({ roomCode: code });
 
+        await kv.del(`game:${code}`);
+
+        await publishMessage(`game:${code}:updates`, 'delete@nodata');
+
         return {
             success: true,
             data: "success"
@@ -65,7 +71,7 @@ export async function deleteRoom(_, code) {
     }
 }
 
-export async function leaveRoom(_, {roomCode, user}) {
+export async function leaveRoom(_, {roomCode, user, fullname}) {
     try {
         await dbConnect();
 
@@ -88,6 +94,15 @@ export async function leaveRoom(_, {roomCode, user}) {
         room.lobbyJoined = room.lobbyJoined.filter(item => item !== undefined && item !== null && item !== user);
 
         await room.save();
+
+        let updatedPlayers = await kv.hget(`game:${roomCode}`, "players");
+        updatedPlayers = updatedPlayers.filter(item => item.id !== user);
+
+        await kv.hset(`game:${roomCode}`, {
+            players: updatedPlayers
+        });
+
+        await publishMessage(`game:${roomCode}:updates`, `leave@${user}|${fullname}`);
 
         return {
             success: true,

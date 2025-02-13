@@ -4,6 +4,7 @@ import crypto from 'crypto'
 import { currentUser } from '@clerk/nextjs/server';
 import dbConnect from '@l/mgdb';
 import Room from '@l/models/Room';
+import { kv } from '@vercel/kv';
 // import { redirect } from 'next/navigation';
 // import { revalidatePath } from 'next/cache';
 
@@ -77,7 +78,14 @@ export async function addRoom(_, formData) {
         const room = new Room(data);
         await room.save();
 
-        
+        await kv.hset(`game:${roomCode}`, {
+            owner: {
+                id: clerkUser.id,
+                fullname: clerkUser.fullName || (clerkUser.firstName + ' ' + clerkUser.lastName),
+            },
+            players: [{fullname: clerkUser.fullName || (clerkUser.firstName + ' ' + clerkUser.lastName), id: clerkUser.id, owner: true}]
+        })
+
         return { success: true, room: data};
     } catch (error) {
         console.log("ROOMERR", error);

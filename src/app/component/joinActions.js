@@ -1,9 +1,12 @@
 'use server'
 import dbConnect from "@l/mgdb"
 import Room from "@l/models/Room"
+// import { sendMessage } from "@/app/api/events/route";
+import { publishMessage } from "@/app/api/sse/lobby/route";
+import { kv } from "@vercel/kv";
 
 
-export async function joinRoom(_, {roomCode, user}) {
+export async function joinRoom(_, {roomCode, user, fullname}) {
     roomCode = roomCode.includes('-') ? roomCode.replace(/-/g, '') : roomCode;
     roomCode = roomCode.toLowerCase();
 
@@ -41,7 +44,20 @@ export async function joinRoom(_, {roomCode, user}) {
 
         await room.save();
 
-        console.log("ROOM", room);
+        // console.log("ROOM", room);
+        // sendMessage(JSON.stringify({ message: 'Room updated' }));
+
+        const kvData = await kv.hget(`game:${roomCode}`, "players");
+        if (!(kvData.find(item => item.id === user))) {
+            kvData.push({fullname, id: user});
+            await kv.hset(`game:${roomCode}`, {players: kvData});
+        }
+
+        const channel = `game:${roomCode}:updates`
+        setTimeout(async () => {
+            await publishMessage(channel, "join@"+user+'|'+fullname)
+        }, 500)
+        
 
         return {
             success: true,
